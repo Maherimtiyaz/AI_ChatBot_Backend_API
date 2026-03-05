@@ -3,6 +3,12 @@ from app.db.mongodb import messages_collection
 
 # Main function to process incoming chat messages
 
+async def generate_response(formatted_messages: list):
+    """Generate a response using the LLM provider"""
+    provider = get_llm_provider()
+    response = await provider.generate(formatted_messages)
+    return response
+
 async def process_message(session_id: str, user_id: str, message: str):
 
     # Save user message to the database
@@ -20,7 +26,7 @@ async def process_message(session_id: str, user_id: str, message: str):
     ).sort("created_at", -1).limit(10).to_list(10)
 
     formatted = [
-        {"role": m["role"], "content": m["content"]}
+        {"role": msg["role"], "content": msg["content"]}
         for msg in reversed(history)
     
     ]
