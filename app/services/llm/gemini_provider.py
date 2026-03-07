@@ -1,6 +1,6 @@
 import google.generativeai as genai
 from .base import BaseLLM
-from .app.core.config import settings
+from app.core.config import settings
 
 # Gemini LLM provider implementation
 

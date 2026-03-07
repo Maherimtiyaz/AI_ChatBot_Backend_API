@@ -1,12 +1,11 @@
 from motor.motor_asyncio import AsyncIOMotorClient
+from app.core.config import settings
 import os
 
-MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017")
+client = AsyncIOMotorClient(settings.MONGO_URL)
 
-client = AsyncIOMotorClient(MONGO_URI)
+database = client[settings.DATABASE_NAME]
 
-db = client["chatbot_db"]
-
-users_collection = db["users"]
-sessions_collection = db["sessions"]
-messages_collection = db["messages"]
+users_collection = database["users"]
+sessions_collection = database["sessions"]
+messages_collection = database["messages"]
