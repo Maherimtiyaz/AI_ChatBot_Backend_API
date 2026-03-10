@@ -7,7 +7,7 @@ class Settings(BaseSettings):
     DATABASE_NAME: str = "ai_chatbot_db"
 
     # JWT
-    JWT_SECRET: str = "secret"
+    JWT_SECRET: str = "super_secure_ai_chatbot_backend_secret_key_2026"
     JWT_ALGORITHM: str = "HS256"
 
 

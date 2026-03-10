@@ -7,18 +7,14 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 def hash_password(password: str) -> str:
-    password_bytes = password.encode("utf-8")[:72]
-    truncated = password_bytes.decode("utf-8", "ignore")
-    return pwd_context.hash(truncated)
+    return pwd_context.hash(password)
 
 
 def verify_password(password: str, hashed: str) -> bool:
-    password_bytes = password.encode("utf-8")[:72]
-    truncated = password_bytes.decode("utf-8", "ignore")
-    return pwd_context.verify(truncated, hashed)
+    return pwd_context.verify(password, hashed)
 
 
-def create_token(data: dict, expires_in_minutes: int = 60) -> str:
+def create_token(data: dict, expires_in_minutes: int = 60):
     payload = data.copy()
 
     payload["exp"] = datetime.datetime.utcnow() + datetime.timedelta(

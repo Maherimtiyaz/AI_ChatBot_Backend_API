@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends
 from app.core.security import get_current_user
 from app.db.mongodb import sessions_collection
+from bson import ObjectId
 
 router = APIRouter()
 
@@ -13,11 +14,12 @@ async def create_session(user=Depends(get_current_user)):
     return {"session_id": str(result.inserted_id)}
 
 
-@router.get("/")
-async def get_sessions(user=Depends(get_current_user)):
-    sessions = await sessions_collection.find(
-        {"user_id": user["id"]}
-        
-    ).to_list(100)
-    
+@router.get("/sessions/")
+async def get_sessions():
+
+    sessions = await sessions_collection.find().to_list(100)
+
+    for session in sessions:
+        session["_id"] = str(session["_id"])
+
     return sessions
